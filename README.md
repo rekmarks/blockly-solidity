@@ -25,7 +25,7 @@ experimenting.
 * `mkdir www && cd www`
 * `git clone https://github.com/google/blockly.git`
 * `git clone https://github.com/promethe42/blockly-solidity.git`
-* `python -m SimpleHTTPServer`
+* `python -m SimpleHTTPServer` or `python3 -m http.server`
 
 Then open http://localhost in your favorite web browser.
 
