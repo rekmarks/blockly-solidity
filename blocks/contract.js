@@ -110,6 +110,8 @@ Blockly.Extensions.register(
       }
     });
   }
+
+  // TODO: add method for inheritance
 );
 
 Blockly.defineBlocksWithJsonArray([
@@ -124,8 +126,17 @@ Blockly.defineBlocksWithJsonArray([
         "text": "MyContract",
       }
     ],
-    "message1": "states %1",
+    "message1": "is %1",
     "args1": [
+      {
+        "type": "input_statement",
+        "name": "INHERITANCE",
+        "check": ["contract_inheritance"],
+        "align": "RIGHT"
+      }
+    ],
+    "message2": "states %1",
+    "args2": [
       {
         "type": "input_statement",
         "name": "STATES",
@@ -133,8 +144,8 @@ Blockly.defineBlocksWithJsonArray([
         "align": "RIGHT"
       }
     ],
-    "message2": "constructor %1",
-    "args2": [
+    "message3": "constructor %1",
+    "args3": [
       {
         "type": "input_statement",
         "name": "CTOR",
@@ -142,8 +153,8 @@ Blockly.defineBlocksWithJsonArray([
         "align": "RIGHT"
       }
     ],
-    "message3": "methods %1",
-    "args3": [
+    "message4": "methods %1",
+    "args4": [
       {
         "type": "input_statement",
         "name": "METHODS",
@@ -155,6 +166,34 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "Declares a new smart contract."
   }
 ]);
+
+Blockly.Blocks['contract_inheritance'] = {
+  init: function() {
+    /*
+     * See format for FieldDropdown of contract_state block, perhaps this block
+     * will require something similar
+     * https://developers.google.com/blockly/reference/js/Blockly.FieldDropdown
+     */
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+            [ "Ownable" ],
+            [ "Heritable" ]
+          ]),
+          'ANCESTOR'
+        )
+    this.setPreviousStatement(true, 'contract_inheritance');
+    this.setNextStatement(true, 'contract_inheritance');
+    this.setColour(100);
+    this.contextMenu = false;
+
+    this._stateNameInitialized = false;
+
+    this.getAncestor = function() { return this.getFieldValue('ANCESTOR') };
+
+    // TODO: add inheritance to extensions
+    // Blockly.Extensions.apply('declare_typed_variable', this, false);
+  },
+};
 
 Blockly.Blocks['contract_state'] = {
   init: function() {

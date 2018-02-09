@@ -41,7 +41,6 @@ Blockly.Solidity.addReservedWords(
 /**
  * Order of operation ENUMs.
  * https://solidity.readthedocs.io/en/develop/miscellaneous.html#order
- * TODO: can this be further minimized?
  */
 Blockly.Solidity.ORDER_ATOMIC = 0;           // 0 "" ...
 // TODO: postfix increment/decrement
