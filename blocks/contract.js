@@ -110,8 +110,20 @@ Blockly.Extensions.register(
       }
     });
   }
+);
 
-  // TODO: add method for inheritance
+// TODO: finish Extensions inheritance method
+Blockly.Extensions.register(
+  'contract_ancestor',
+  function() {
+
+    var block = this;
+
+    if (!this.getAncestor) {
+      throw 'missing getAncestor method';
+    }
+
+  }
 );
 
 Blockly.defineBlocksWithJsonArray([
@@ -130,7 +142,7 @@ Blockly.defineBlocksWithJsonArray([
     "args1": [
       {
         "type": "input_statement",
-        "name": "INHERITANCE",
+        "name": "ANCESTORS",
         "check": ["contract_inheritance"],
         "align": "RIGHT"
       }
@@ -176,8 +188,8 @@ Blockly.Blocks['contract_inheritance'] = {
      */
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-            [ "Ownable" ],
-            [ "Heritable" ]
+            [ 'Ownable' ],
+            [ 'Heritable' ]
           ]),
           'ANCESTOR'
         )
@@ -191,7 +203,7 @@ Blockly.Blocks['contract_inheritance'] = {
     this.getAncestor = function() { return this.getFieldValue('ANCESTOR') };
 
     // TODO: add inheritance to extensions
-    // Blockly.Extensions.apply('declare_typed_variable', this, false);
+    Blockly.Extensions.apply('contract_ancestor', this, false);
   },
 };
 

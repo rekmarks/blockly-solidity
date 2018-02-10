@@ -8,6 +8,7 @@
 goog.require('Blockly.Solidity');
 
 Blockly.Solidity['contract'] = function(block) {
+  var ancestors = Blockly.Solidity.statementToCode(block, 'ANCESTORS'); // uncomment when block is complete
   var states = Blockly.Solidity.statementToCode(block, 'STATES');
   if (states.length > 0) {states += '\n'};
   var ctor = Blockly.Solidity.statementToCode(block, 'CTOR');
@@ -20,8 +21,14 @@ Blockly.Solidity['contract'] = function(block) {
     ctor = ctor.slice(0, -2);
   }
 
+  // trim ', ' from final ancestor, and weirdly prepended space
+  if (ancestors.length > 0) {
+    ancestors = ancestors.slice(1, -2);
+  }
+
   var code = 'pragma solidity ^0.4.2;\n\n'
-    + 'contract ' + block.getFieldValue('NAME') + ' {\n\n'
+    + 'contract ' + block.getFieldValue('NAME')
+    + ' is' + ancestors + ' {\n\n'
     + states
     + ctor
     + methods
@@ -29,6 +36,15 @@ Blockly.Solidity['contract'] = function(block) {
 
   return code;
 };
+
+// TODO: inheritance generation has to be fixed somewhere, maybe here
+// specifically, I need to represent the Zeppelin libraries as a DAG
+// and only generate the necessary inheritances (e.g. if a contract is
+// Heritable it is also Ownable). Perhaps the user should just be stopped
+// upfront from adding invalid inheritances?
+Blockly.Solidity['contract_inheritance'] = function(block) {
+  return block.getAncestor() + ', ';
+}
 
 Blockly.Solidity['contract_state'] = function(block) {
   var name = block.getFieldValue('NAME');

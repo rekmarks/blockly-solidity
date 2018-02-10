@@ -43,7 +43,7 @@ Blockly.Solidity.addReservedWords(
  * https://solidity.readthedocs.io/en/develop/miscellaneous.html#order
  */
 Blockly.Solidity.ORDER_ATOMIC = 0;           // 0 "" ...
-// TODO: postfix increment/decrement
+// TODO: postfix increment/decrement (++, --)
 // https://stackoverflow.com/questions/7031326/what-is-the-difference-between-prefix-and-postfix-operators#7031409
 Blockly.Solidity.ORDER_NEW = 1.1;            // new
 Blockly.Solidity.ORDER_MEMBER = 1.2;         // . []
