@@ -187,10 +187,7 @@ Blockly.Blocks['contract_inheritance'] = {
      * https://developers.google.com/blockly/reference/js/Blockly.FieldDropdown
      */
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-            [ 'Ownable' ],
-            [ 'Heritable' ]
-          ]),
+        .appendField(new Blockly.FieldDropdown(zeppelinContracts),
           'ANCESTOR'
         )
     this.setPreviousStatement(true, 'contract_inheritance');
@@ -202,7 +199,6 @@ Blockly.Blocks['contract_inheritance'] = {
 
     this.getAncestor = function() { return this.getFieldValue('ANCESTOR') };
 
-    // TODO: add inheritance to extensions
     Blockly.Extensions.apply('contract_ancestor', this, false);
   },
 };
