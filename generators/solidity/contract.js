@@ -10,9 +10,23 @@ goog.require('Blockly.Solidity');
 Blockly.Solidity['contract'] = function(block) {
 
   var ancestors = Blockly.Solidity.statementToCode(block, 'ANCESTORS');
+  var ancestorsArray = ancestors.split(','); // for generating import statements
   // trim weirdly prepended space from string and ', ' from final ancestor
   if (ancestors.length > 0) {
     ancestors = ' is' + ancestors.slice(1, -2);
+  }
+
+  var importStatements = '';
+  if (ancestorsArray.length > 0) {
+    for (var i = 0; i < ancestorsArray.length; i++) {
+
+      ancestorsArray[i] = ancestorsArray[i].trim();
+
+      if (ancestorsArray[i].length > 0) {
+        importStatements += getZeppelinImportStatement(ancestorsArray[i]);
+      }
+    }
+    importStatements += '\n';
   }
 
   var states = Blockly.Solidity.statementToCode(block, 'STATES');
@@ -29,6 +43,7 @@ Blockly.Solidity['contract'] = function(block) {
   }
 
   var code = 'pragma solidity ^0.4.2;\n\n'
+    + importStatements
     + 'contract ' + block.getFieldValue('NAME')
     + ancestors + ' {\n\n'
     + states
@@ -45,7 +60,6 @@ Blockly.Solidity['contract'] = function(block) {
 // Heritable it is also Ownable). Perhaps the user should just be stopped
 // upfront from adding invalid inheritances?
 Blockly.Solidity['contract_inheritance'] = function(block) {
-  console.log(getZeppelinPath(block.getAncestor())); // test
   return block.getAncestor() + ', ';
 }
 

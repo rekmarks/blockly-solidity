@@ -51,9 +51,12 @@ const zeppelinPaths = {
   'token': 'token/'
 }
 
-function getZeppelinPath(ancestor) {
+function getZeppelinImportStatement(ancestor) {
 
-  cat = zeppelinDependencies.ancestor.category;
+  if (ancestor === "") return;
 
-  return zeppelinPaths.cat;
+  return   'import "zeppelin-solidity/contracts/'
+         + zeppelinPaths[zeppelinDependencies[ancestor]['category']]
+         + ancestor
+         + '.sol";\n';
 }
